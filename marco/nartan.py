@@ -1,6 +1,7 @@
 import functools
 import os
 
+from user_agents import parse
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
@@ -18,15 +19,14 @@ def index():
 def download_page():
 
     # Find OS from User-Agent
-    usrA = request.user_agent.string
+    usrA = parse(request.user_agent.string)
   
     # Build implant depending on OS
-    if usrA.find("Windows 10.0 NT 10.0"):
-        name = 'windows 10'
-    else:
-        name = "Unknown OS"
+    print(usrA.os.family)
+    
+    name = "Gavin"
 
-    return render_template('download_page.html', name=name)
+    return render_template('download_page.html', name=name, os_fam=usrA.os.family.lower())
 
 @bp.route('/download')
 def download():
