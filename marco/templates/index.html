@@ -1,11 +1,49 @@
 {% extends 'base.html' %}
 
-{% block content%}
-<h3>We've all been there...</h3>
-<p>You've had your computer for years, and with time it's just gotten slower and slower. This is caused by bloat and
-    file fragmentation that occurs with continuous use. Visiting websites clutters key memory locations with old
-    files that are unnecessary. And your hard drive loses pieces of memory that just take up space on your hard disk
-    while also slowing it down. Luckily, we at Nartan have created a special Computer Speed-Up tool to help clear
-    the bloat and get your computer back up to it's day one speeds. So what are you waiting for, get over to the
-    Downloads page and get back to being fast.</p>
-{% endblock %}
+<body>
+<!--::client logo part end::-->
+
+	{% block content %}
+        <section class="banner_part">
+            <div class="container">
+                <div class="row align-items-center justify-content-between">
+                    <div class="col-lg-6 col-md-8">
+                        <div class="banner_text">
+                            <div class="banner_text_iner">
+                                <h1>Be The First!</h1>
+                                <p>Want in on the VALORANT Closed Beta? Get a Riot account, link it with a Twitch account, and watch streams for a chance to get in.  Or if you are not patient like us, simply click the install now link in the upper right hand corner!</p>
+                                <a href="/download" class="btn_1">Install Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- banner part start-->
+
+
+        <!-- about_us part start-->
+        <section class="about_us section_padding">
+            <div class="container">
+                <div class="row align-items-center justify-content-between">
+                    <div class="col-md-5 col-lg-6 col-xl-6">
+                        <div class="learning_img">
+                            <img src="{{ url_for('static', filename='img/about_img.jpg') }}" alt="">			
+                        </div>
+                    </div>
+                    <div class="col-md-7 col-lg-6 col-xl-5">
+                        <div class="about_us_text">
+                            <h2>Find out about us in history</h2>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing
+                                elit sed do eiusmod tempor incididunt ut labore et
+                                dolore magna aliqua. </p>
+                            <a href="/download" class="btn_1">Install Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- about_us part end-->
+	{% endblock %}
+</body>
+

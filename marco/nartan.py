@@ -3,7 +3,7 @@ import os
 
 from user_agents import parse
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, session, url_for
+    Blueprint, flash, g, redirect, render_template, request, session, url_for, send_from_directory
 )
 
 bp = Blueprint('nartan', __name__)
@@ -17,15 +17,11 @@ def index():
 
 @bp.route('/download_page')
 def download_page():
-
     # Find OS from User-Agent
     usrA = parse(request.user_agent.string)
-  
     # Build implant depending on OS
     print(usrA.os.family)
-    
     name = "Gavin"
-
     return render_template('download_page.html', name=name, os_fam=usrA.os.family.lower())
 
 @bp.route('/download')
