@@ -26,7 +26,7 @@ def download_page():
     
     name = "Gavin"
 
-    return render_template('download_page.html', name=name, os_fam=usrA.os.family.lower())
+    return render_template('download_page.html', name=name, os_fam=usrA.os.family)
 
 @bp.route('/download')
 def download():
