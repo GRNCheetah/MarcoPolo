@@ -1,0 +1,4 @@
+ls -ltr
+hostname
+cat /etc/passwd
+echo "You've been hackered"

