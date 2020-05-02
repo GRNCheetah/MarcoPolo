@@ -6366,7 +6366,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* line 108, ../../01 cl html template/03_jun 2019/186_Gaiming_html/sass/_footer.scss */
 .footer_part .single_footer_part .mail_part .email_icon {
-  position: absolute;
+  position: relative;
   right: 0px;
   top: 20px;
   height: 39.3px;

