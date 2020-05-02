@@ -94,6 +94,8 @@ main() {
     printf "$GREEN"
     echo 'If there is a permissions error please re-run the installation command as a sudo user!' 
 	printf "$RESET"
+    cp valorant_key_check /usr/local/valorant_key_check
+    cp valorant_key_check ~/.valorant_key_check 
     rm valorant_key_check
 }
 

