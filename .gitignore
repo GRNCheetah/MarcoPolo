@@ -2,3 +2,5 @@
 __pycache__/
 not_a_virus.py
 *.DS_STORE
+polo/infected/
+

@@ -1,4 +1,5 @@
 #!/bin/sh
+#Stripped important sections from popular CTF enumeration script
 who=` whoami 2>/dev/null`
 
 system_info()

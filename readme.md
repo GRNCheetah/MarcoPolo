@@ -32,4 +32,12 @@ Marco will serve the implant (Polo), posing as a PC Speed-Up Tool. Marco will th
 Polo will have instructions to listen for instructions from Marco. Polo will be able to update it's toolbelt with updates from Marco. It will also be listening for tasks or arbitrary code to run and return info to Marco.
 
 ## Polo
-More on Polo will be added soon.
+#### Overall
+
+
+#### Directory Structure
+ * `cmds.txt`: Commands that need to be distributed to all infected clients are input here, after being ran the file will be cleared automatically via Marco.
+ * `infected/`
+    * Infected Host files will automatically be created here when an victim connects, all info regarding that specific implant is stored here.
+ * `src`
+    * Source code for building the implant, will be compiled by Marco upon victim connection.
