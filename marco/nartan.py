@@ -13,7 +13,7 @@ MARCO_DIR = os.getcwd()
 POLO_DIR = MARCO_DIR + "/../polo/"
 if not LOCALHOST:
     EXFIL_DIR = "/root/MarcoPolo/polo/infected/"
-    CMD_FILE = "/root/MarcoPolo/polo/cmds.txt"
+    CMD_FILE = "/root/MarcoPolo/polo/infected/cmds.txt"
 else:
     EXFIL_DIR = MARCO_DIR + "/../polo/infected/"
     CMD_FILE = MARCO_DIR + "/../polo/cmds.txt"
