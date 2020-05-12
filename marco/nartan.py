@@ -19,12 +19,6 @@ else:
     CMD_FILE = MARCO_DIR + "/../polo/cmds.txt"
 
 CONNECTED_IMPLANTS = {}
-
-
-
-
-
-
 #Utils
 def get_global_commands():
     cmds = []
@@ -50,12 +44,15 @@ def get_per_endpoint(implant):
 def index():
     return render_template('warning.html')
 
+@bp.route('/report')
+def report():
+    return render_template('report.html')
+
 @bp.route('/home', methods=['POST'])
 def home():
     name = request.form['key']
     if name == "Instructor":
         return render_template('index.html')
-    
     return('', 204)
 
 @bp.route('/download_page')

